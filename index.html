@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+  .body {
+    background-color: aqua;
+  }
+
+  /* Estilos para el footer */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #000000; /* Color de fondo */
+    text-align: center;
+    padding: 10px 0; /* Espacio interno */
+  }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">Dashboard medición sensores</h1>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          Datos de la base de datos
+        </div>
+        <div class="card-body">
+          <div id="datos"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">© 2024 Dashboard Medición Sensores Trabajo Final - Cristhian Reyes - Nicolas Zea</span>
+  </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Función para cargar y mostrar los datos de la API
+  function cargarDatos() {
+    $.getJSON('http://localhost/proyectoFinalTic/api.php', function(data) {
+      var html = '<table class="table"><thead><tr><th>Temperatura <i class="bi bi-thermometer"> (°C) </i></th><th>Humedad <i class="bi bi-droplet"> (%)</i></th><th>Bombillo <i class="bi bi-lightbulb"></i></th></tr></thead><tbody>';
+      $.each(data, function(index, value) {
+        html += '<tr><td>' + value.temperatura + '</td><td>' + value.humedad + '</td><td>' + (value.bombillo) + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      $('#datos').html(html);
+    });
+  }
+
+  // Cargar los datos al cargar la página
+  cargarDatos();
+
+  // Recargar los datos cada 5 segundos
+  setInterval(cargarDatos, 5000); // 5000 milisegundos = 5 segundos
+});
+</script>
+
+</body>
+</html>
